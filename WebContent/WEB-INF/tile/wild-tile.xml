@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+		tiles설정파일 
+		Wild tiles
+		
+-->
+<!DOCTYPE tiles-definitions 
+PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="tw_default" template="/WEB-INF/view/templete.jsp">
+		<put-attribute name="header" value="/WEB-INF/view/header.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp"/>
+	</definition>
+	<!-- name부분에 wildcard support-*처리가 가능하다.  -->
+	<definition name="tw_*" extends="tw:default">
+		<put-attribute name="body" value="/WEB-INF/view{1}.jsp"/>
+	</definition>
+</tiles-definitions>

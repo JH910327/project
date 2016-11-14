@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 패키지 역할. member.하고 타고 들어가도록 해도 된다. -->
+<!-- select / insert / delete등 만들면 되고, id를 설정해 member.(id)로 사용가능. -->
+<!-- id > 작업 이름 resultType > 리턴타입 -->
+<mapper namespace="files">
+	<insert id = "fileUp" parameterType = "pojo.FileObj">
+		insert into files values(files_seq.nextval,#{ctg},#{title},#{filename},#{fileuuid},#{filesize},#{uploader},0)
+	</insert>
+	<select id="fileList" resultType="pojo.FileObj">
+		select * from files order by num desc
+	</select>
+	<select id="fileDown" resultType="pojo.FileObj" parameterType="java.lang.Integer">
+		select * from files where num = #{num}
+	</select>
+	<update id="upCount" parameterType="java.lang.Integer">
+		update files set count=count+1 where num=#{num} 
+	</update>
+	<select id="topDown" resultType="pojo.FileObj">
+		<![CDATA[select * from (select * from files order by count desc) where rownum <= 3 ]]>
+	</select>
+	<select id="fileSearch" resultType="pojo.FileObj">
+		select * from files where title like #{te}
+	</select>
+
+</mapper>

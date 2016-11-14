@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions 
+PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="tile_file" template="/WEB-INF/view/templete.jsp">
+		<put-attribute name="title" value="FileUpload"/>
+		<put-attribute name="header" value="/WEB-INF/view/header.jsp"/>
+		<put-attribute name="nav" value="/WEB-INF/view/member/login.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/file/reg.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp"/>
+	</definition>
+	<definition name="tile_fileList" extends="tile_file">
+		<put-attribute name="body" value="/WEB-INF/view/file/filelist.jsp"/>
+	</definition>
+	<definition name="tile_Fileuprst" extends="tile_file">
+		<put-attribute name="body" value="/WEB-INF/view/file/uploadrst.jsp"/>
+	</definition>
+	<definition name="tile_error" extends="tile_file">
+		<put-attribute name="body" value="/WEB-INF/view/file/error.jsp"/>
+	</definition>
+</tiles-definitions>

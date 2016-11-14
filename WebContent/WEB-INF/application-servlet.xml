@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+
+	<!-- websocket Handler setting
+		(extends 걸고 자신이 설계했던 그 클래스를 빈으로 등록 / id는 적절하게) 
+		-->
+	<bean class="socket.controller.ReceiveController" id="receiveController"/>
+	<bean class="socket.controller.ReceiveController2" id="receiveController2"/>
+	<websocket:handlers>
+		<websocket:mapping handler="receiveController" 	path="/socket/conn.do"/>
+		<websocket:mapping handler="receiveController2" 	path="/socket/con.do"/>
+		<websocket:mapping handler="alertHandler" path="/socket/alert.do"/>
+	</websocket:handlers>
+	
+	
+	<!-- 메일 전송 담당 빈 -->
+	
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="javaMailSender">
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>
+		<property name="username" value="trsaan0417"/>
+		<property name="password" value="~1q2w3e4r"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.timeout">5000</prop>
+			</props>
+		</property>
+	</bean>
+	
+
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=utf-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	 
+	
+	<!-- scan package setting -->
+	<context:component-scan base-package="common"/>
+	<context:component-scan base-package="charge"/>
+	<context:component-scan base-package="review" />
+	<context:component-scan base-package="root" />
+	<context:component-scan base-package="member" />
+	<context:component-scan base-package="file" />
+	<context:component-scan base-package="socket" />
+	<context:component-scan base-package="mail" />
+	<!-- view resolver setting -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		id="beanNameViewResolver" p:order="1" />
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+		id="tilesViewResolver" p:order="2" />
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
+		id="tilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tile/default-tile.xml</value>
+				<value>/WEB-INF/tile/wild-tile.xml</value>
+				<value>/WEB-INF/tile/member-tile.xml</value>
+				<value>/WEB-INF/tile/file-tile.xml</value>
+				<value>/WEB-INF/tile/charge-tile.xml</value>
+				<value>/WEB-INF/tile/review-tile.xml</value>
+				<value>/WEB-INF/tile/socket-tile.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		id="internalResourceViewResolver" p:order="9" p:prefix="/WEB-INF/view/"
+		p:suffix=".jsp" />
+
+	<!-- orm setting -->
+	<bean class="org.apache.tomcat.jdbc.pool.DataSource" id="ds">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@121.134.125.131:1521:xe" />
+		<property name="username" value="jh" />
+		<property name="password" value="oracle" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds" />
+		<property name="mapperLocations">
+			<list>
+				<value>/WEB-INF/mapper/admin-mapper.xml</value>
+				<value>/WEB-INF/mapper/member-mapper.xml</value>
+				<value>/WEB-INF/mapper/my-mapper.xml</value>
+				<value>/WEB-INF/mapper/review-mapper.xml</value>
+				<value>/WEB-INF/mapper/file-mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- multipart Resolver CommonsMultipartResolver ==> 얘를 mulitpartResolver 
+		라는 id값으로 반드시 등록해야함 / 와이어링을 이름으로 가져다가 처리해서. -->
+	<bean
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		id="multipartResolver" />
+
+
+
+
+
+
+
+
+
+
+</beans>

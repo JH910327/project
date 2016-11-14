@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+		tiles설정파일 
+		가장 많이 사용하는 기본 형태다.		
+		
+-->
+<!DOCTYPE tiles-definitions 
+PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="tile_memberjoin" template="/WEB-INF/view/templete.jsp">
+		<put-attribute name="title" value="WELCOME"/>
+		<put-attribute name="header" value="/WEB-INF/view/header.jsp"/>
+		<put-attribute name="nav" value="/WEB-INF/view/member/login.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/member/join.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp"/>
+	</definition>
+	<definition name="tile_memberjoinrst" extends="tile_memberjoin">
+		<put-attribute name="body" value="/WEB-INF/view/member/confirm.jsp"/>
+	</definition>
+	<definition name="tile_logout" extends="tile_memberjoin">
+		<put-attribute name="body" value="/WEB-INF/view/member/logout.jsp"/>
+	</definition>
+	<definition name="tile_loginRst" template="/WEB-INF/view/templete.jsp">
+		<put-attribute name="title" value="WELCOME"/>
+		<put-attribute name="header" value="/WEB-INF/view/header.jsp"/>
+		<put-attribute name="nav" value="/WEB-INF/view/member/login.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/member/loginResult.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp"/>
+	</definition>
+	<definition name="tile_Auth" template="/WEB-INF/view/templete.jsp">
+		<put-attribute name="title" value="WELCOME"/>
+		<put-attribute name="header" value="/WEB-INF/view/header.jsp"/>
+		<put-attribute name="nav" value="/WEB-INF/view/member/login.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/member/Auth.jsp"/>
+		<put-attribute name="footer" value="/WEB-INF/view/footer.jsp"/>
+	</definition>
+</tiles-definitions>

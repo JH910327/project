@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 패키지 역할. member.하고 타고 들어가도록 해도 된다. -->
+<!-- select / insert / delete등 만들면 되고, id를 설정해 member.(id)로 사용가능. -->
+<!-- id > 작업 이름 resultType > 리턴타입 -->
+<mapper namespace="admin">
+	<select id = "adcheck" resultType="java.util.HashMap" parameterType = "java.lang.String">
+		select * from manager where take = #{id}
+	</select>
+	<insert id = "managerin" parameterType = "java.util.HashMap">
+		insert into manager values (manager_seq.nextval,#{userid},#{thisid},sysdate)
+	</insert>
+	<select id = "getAlls" resultType="pojo.Manager">
+		select * from manager order by takedate desc
+	</select>
+	<insert id = "addOne" parameterType = "pojo.Manager">
+		insert into manager values (manager_seq.nextval,#{take},#{give},sysdate)
+	</insert>
+	<select id = "showAlls" resultType = "java.util.HashMap">
+		select m.*, ms.lv,point from member m, membership ms where m.id = ms.id order by lv asc, point desc
+	</select>
+</mapper>

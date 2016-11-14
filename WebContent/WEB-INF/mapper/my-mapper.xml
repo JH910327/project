@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace = 패키지 역할. member.하고 타고 들어가도록 해도 된다. -->
+<!-- select / insert / delete등 만들면 되고, id를 설정해 member.(id)로 사용가능. -->
+<!-- id > 작업 이름 resultType > 리턴타입 -->
+<mapper namespace="my">
+	<update id = "update" parameterType = "java.util.HashMap">
+		update membership set point = point + #{cost} where id = #{id}
+	</update>
+	<insert id = "charge" parameterType = "java.util.HashMap">
+		insert into recharge values(#{id},#{cost},sysdate)
+	</insert>
+	<select id = "checklog" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		<![CDATA[select * from recharge  where id = #{id} and cdate >= to_date(#{start}) and cdate <= to_date(#{end})+1]]>
+	</select>
+	<select id = "showAlls" resultType = "java.util.HashMap">
+		select m.*, ms.lv,point from member m, membership ms where m.id = ms.id order by lv asc, point desc
+	</select>
+</mapper>
